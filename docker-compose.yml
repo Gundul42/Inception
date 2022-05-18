@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+
+  webserver:
+    build: ./srcs/nginx
+    ports:
+      - 443:443
+    volumes:
+      - /home/graja/data/webserv:/usr/share/nginx/html
+
+  database:
+    build: ./srcs/mariadb
+
+  entry:
+    image: debian:buster
+    stdin_open: true
+    tty: true
+    command: bash
