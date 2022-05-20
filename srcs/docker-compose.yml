@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+
+  webserver:
+    build: ./requirements/nginx
+    ports:
+      - 443:443
+    volumes:
+       - type: bind
+         source: /home/gundul/data/webserv
+         target: /usr/share/nginx/html
+
+  database:
+    build: ./requirements/mariadb
+    volumes:
+      - type: bind
+        source: /home/gundul/data/database
+        target: /var/lib/mysql
+
+  entry:
+    image: debian:buster
+    stdin_open: true
+    tty: true
+    command: bash
+

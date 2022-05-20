@@ -1,7 +1,7 @@
 FROM	debian:buster
 RUN	apt-get update && apt-get install -y vim mariadb-server mariadb-client
-RUN	service mysql start
+COPY	./my.cnf /etc/mysql/my.cnf
 
-CMD	["mysqld"]
+CMD	["mysqld", "--user=mysql"]
 EXPOSE 3306
 
