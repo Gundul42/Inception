@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 services:
 
@@ -7,20 +7,37 @@ services:
     ports:
       - 443:443
     volumes:
-       - type: bind
-         source: /home/gundul/data/webserv
-         target: /usr/share/nginx/html
+      - webserv:/usr/share/nginx/html
+    networks:
+      - inception
 
   database:
     build: ./requirements/mariadb
     volumes:
-      - type: bind
-        source: /home/gundul/data/database
-        target: /var/lib/mysql
+      - data:/val/lib/mysql
+    networks:
+      - inception
 
-  entry:
-    image: debian:buster
-    stdin_open: true
-    tty: true
-    command: bash
+  wordpress:
+    build: ./requirements/wordpress
+    depends_on: 
+      - webserver
+    volumes_from:
+      - webserver:rw
+    networks:
+      - inception
 
+networks:
+  inception:
+  
+volumes:
+  data:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/gundul/data/database
+  webserv:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/gundul/data/webserver
