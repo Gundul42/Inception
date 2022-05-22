@@ -15,8 +15,6 @@ services:
       - database
     volumes:
       - webserv:/usr/share/nginx/html
-        #volumes_from:
-        #- webserver:rw
     networks:
       - inception
   
