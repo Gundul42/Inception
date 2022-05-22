@@ -2,15 +2,6 @@ version: '3.8'
 
 services:
 
-  webserver:
-    build: ./requirements/nginx
-    ports:
-      - 443:443
-    volumes:
-      - webserv:/usr/share/nginx/html
-    networks:
-      - inception
-
   database:
     build: ./requirements/mariadb
     volumes:
@@ -21,9 +12,22 @@ services:
   wordpress:
     build: ./requirements/wordpress
     depends_on: 
-      - webserver
-    volumes_from:
-      - webserver:rw
+      - database
+    volumes:
+      - webserv:/usr/share/nginx/html
+        #volumes_from:
+        #- webserver:rw
+    networks:
+      - inception
+  
+  webserver:
+    build: ./requirements/nginx
+    depends_on: 
+      - wordpress
+    ports:
+      - 443:443
+    volumes:
+      - webserv:/usr/share/nginx/html
     networks:
       - inception
 
