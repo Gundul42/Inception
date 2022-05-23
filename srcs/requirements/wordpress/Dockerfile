@@ -1,8 +1,17 @@
 FROM	debian:buster
-RUN	apt-get update && apt-get install -y vim php php-common php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath wget unzip
+RUN	apt-get update && apt-get install -y vim php php-common php-cli php-fpm php-json php-pdo \
+	php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath wget unzip
 
-WORKDIR	/usr/share/nginx/html
-RUN	wget https://wordpress.org/latest.zip && unzip latest.zip && rm latest.zip
-RUN	mkdir /run/php
-CMD	["php-fpm7.3", "-F"]
-EXPOSE 9000
+WORKDIR	/var/www
+RUN	usermod -u 1000 www-data && wget https://wordpress.org/latest.zip \
+	&& chown www-data:www-data /var/www/latest.zip && mkdir /run/php
+
+COPY	./config/startup.sh /tmp/startup.sh
+
+#USER	www-data
+EXPOSE	9000
+
+CMD	["bash", "/tmp/startup.sh"]
+
+#Start php-fpm in the foreground
+#CMD	["tail" ,"-f", "/dev/null"]
