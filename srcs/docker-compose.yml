@@ -4,13 +4,20 @@ services:
 
   database:
     build: ./requirements/mariadb
+    container_name: database
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+    restart: unless-stopped
     volumes:
-      - data:/val/lib/mysql
+      - data:/var/lib/mysql
     networks:
       - inception
 
   wordpress:
     build: ./requirements/wordpress
+    container_name: frontend
+    restart: unless-stopped
     depends_on: 
       - database
     volumes:
@@ -20,6 +27,8 @@ services:
   
   webserver:
     build: ./requirements/nginx
+    container_name: webserver
+    restart: unless-stopped
     depends_on: 
       - wordpress
     ports:
