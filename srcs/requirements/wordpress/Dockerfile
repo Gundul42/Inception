@@ -8,6 +8,8 @@ RUN	usermod -u 1000 www-data && wget https://wordpress.org/latest.zip \
 	&& chown www-data:www-data /var/www/latest.zip && mkdir /run/php
 
 COPY	./config/startup.sh /tmp/startup.sh
+COPY	./config/wp-config.php /tmp/wp-config.php
+COPY	./config/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 #USER	www-data
 EXPOSE	9000
