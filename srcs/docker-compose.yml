@@ -47,9 +47,9 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/gundul/data/database
+      device: ${PROJECT_VOLUME_DATA}
   webserv:
     driver_opts:
       o: bind
       type: none
-      device: /home/gundul/data/webserver
+      device: ${PROJECT_VOLUME_WEBSERVER}
