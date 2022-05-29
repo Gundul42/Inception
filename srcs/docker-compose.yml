@@ -9,6 +9,8 @@ services:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
     restart: unless-stopped
+    extra_hosts:
+      - "graja.42.fr:127.0.0.1"
     volumes:
       - data:/var/lib/mysql
     networks:
@@ -18,6 +20,8 @@ services:
     build: ./requirements/wordpress
     container_name: frontend
     restart: unless-stopped
+    extra_hosts:
+      - "graja.42.fr:127.0.0.1"
     depends_on: 
       - database
     volumes:
@@ -29,6 +33,8 @@ services:
     build: ./requirements/nginx
     container_name: webserver
     restart: unless-stopped
+    extra_hosts:
+      - "graja.42.fr:127.0.0.1"
     depends_on: 
       - wordpress
     ports:
