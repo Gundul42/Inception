@@ -1,7 +1,7 @@
 FROM	debian:buster
 RUN	apt-get update && apt-get install -y vim php php-common php-cli php-fpm php-json php-pdo \
 	php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath wget unzip \
-	mariadb-client
+	mariadb-client php-redis
 
 WORKDIR	/var/www
 RUN	usermod -u 1000 www-data && wget https://wordpress.org/latest.zip \

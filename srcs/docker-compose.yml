@@ -4,13 +4,12 @@ services:
 
   database:
     build: ./requirements/mariadb
+    image:  mariadb:graja
     container_name: database
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
     restart: unless-stopped
-    extra_hosts:
-      - "graja.42.fr:127.0.0.1"
     volumes:
       - data:/var/lib/mysql
     networks:
@@ -18,10 +17,9 @@ services:
 
   wordpress:
     build: ./requirements/wordpress
+    image: wordpress:graja
     container_name: frontend
     restart: unless-stopped
-    extra_hosts:
-      - "graja.42.fr:127.0.0.1"
     depends_on: 
       - database
     volumes:
@@ -31,10 +29,9 @@ services:
   
   webserver:
     build: ./requirements/nginx
+    image: nginx:graja
     container_name: webserver
     restart: unless-stopped
-    extra_hosts:
-      - "graja.42.fr:127.0.0.1"
     depends_on: 
       - wordpress
     ports:
@@ -43,6 +40,40 @@ services:
       - webserv:/var/www/html
     networks:
       - inception
+
+################
+## Bonus part ##
+################
+
+  ftp:
+    build: ./bonus/ftp
+    image: ftp:graja
+    container_name: ftp
+    restart: unless-stopped
+    depends_on: 
+      - webserver
+    ports:
+      - 0.0.0.0:21:21
+    volumes:
+      - webserv:/var/run/vsftpd
+    networks:
+      - inception
+
+  redis:
+    build: ./bonus/redis
+    image: redis:graja
+    container_name: redis
+    restart: unless-stopped
+    depends_on: 
+      - wordpress
+    volumes:
+      - webserv:/var/run/vsftpd
+    networks:
+      - inception
+
+################
+##  end Bonus ##
+################
 
 networks:
   inception:
