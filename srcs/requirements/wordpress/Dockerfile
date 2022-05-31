@@ -6,6 +6,8 @@ RUN	apt-get update && apt-get install -y vim php php-common php-cli php-fpm php-
 WORKDIR	/var/www
 RUN	usermod -u 1000 www-data && wget https://wordpress.org/latest.zip \
 	&& chown www-data:www-data /var/www/latest.zip && mkdir /run/php
+RUN	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+	&& chmod a+x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 COPY	./config/startup.sh /tmp/startup.sh
 COPY	./config/wp-config.php /tmp/wp-config.php
