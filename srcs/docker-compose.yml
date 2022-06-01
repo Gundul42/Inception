@@ -71,6 +71,29 @@ services:
     networks:
       - inception
 
+  adminer:
+    build: ./bonus/adminer
+    image: adminer:graja
+    container_name: adminer
+    depends_on: 
+      - database
+      - webserver
+      - wordpress
+    volumes:
+      - webserv:/var/www/html
+    networks:
+      - inception
+
+  minetest:
+    build: ./bonus/minetest
+    image: minetest:graja
+    restart: unless-stopped
+    container_name: minetest
+    ports:
+      - 30000:30000/udp
+    networks:
+      - inception
+
 ################
 ##  end Bonus ##
 ################
