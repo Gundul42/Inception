@@ -45,6 +45,20 @@ services:
 ## Bonus part ##
 ################
 
+  minetest:
+    build: ./bonus/minetest
+    image: minetest:graja
+    restart: unless-stopped
+    container_name: minetest
+    ports:
+      - 30000:30000/udp
+    networks:
+      - inception
+    volumes:
+      - type: volume
+        source: minetest
+        target: /home/minetest/.minetest/worlds
+
   ftp:
     build: ./bonus/ftp
     image: ftp:graja
@@ -84,16 +98,6 @@ services:
     networks:
       - inception
 
-  minetest:
-    build: ./bonus/minetest
-    image: minetest:graja
-    restart: unless-stopped
-    container_name: minetest
-    ports:
-      - 30000:30000/udp
-    networks:
-      - inception
-
 ################
 ##  end Bonus ##
 ################
@@ -113,3 +117,4 @@ volumes:
       o: bind
       type: none
       device: ${PROJECT_VOLUME_WEBSERVER}
+  minetest:
