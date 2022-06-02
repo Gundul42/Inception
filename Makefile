@@ -1,6 +1,7 @@
 NAME		= inception
 SRCS		= ./srcs/docker-compose.yml
 
+
 $(NAME)		:	$(SRCS)
 	@mkdir -p ${HOME}/data/database
 	@mkdir -p ${HOME}/data/webserver
@@ -22,4 +23,11 @@ down		:	clean
 
 show		:
 	@docker ps -a
+
+tls		:
+	@bash checktls.sh
+
+domain		:
+	@echo "Need admin to add domain to /etc/hosts file"
+	@sudo echo "127.0.0.1 graja.42.fr" >> /etc/hosts
 
